@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemilihan Ketua Korp Musik</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 50%, #1b263b 100%);
+    }
+    
+    .card-gradient {
+      background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      backdrop-filter: blur(10px);
+    }
+    
+    .glow-effect {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+    }
+    
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .animate-slideIn {
+      animation: slideIn 0.3s ease-out forwards;
+    }
+    
+    .animate-scaleIn {
+      animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    
+    .animate-slideUp {
+      animation: slideUp 0.5s ease-out forwards;
+    }
+    
+    .animate-bounce-subtle {
+      animation: bounce 1s ease-in-out infinite;
+    }
+    
+    .animate-shake {
+      animation: shake 0.3s ease-in-out;
+    }
+    
+    .animate-glow-pulse {
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+    
+    .candidate-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .candidate-card {
+      transition: all 0.3s ease;
+    }
+    
+    .candidate-card:hover {
+      transform: translateY(-5px) rotateZ(-1deg);
+    }
+    
+    .vote-btn {
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+    
+    .vote-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    }
+    
+    .vote-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .progress-bar-fill {
+      transition: width 0.5s ease-out;
+    }
+    
+    .modal-backdrop {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+    
+    .chart-bar {
+      transition: height 0.5s ease-out, width 0.5s ease-out;
+    }
+    
+    .tab-active {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full gradient-bg overflow-auto">
+     <!-- Voting Page -->
+   <div id="votingPage" class="min-h-full p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+     <!-- Header -->
+     <header class="text-center mb-8 animate-fadeIn">
+      <div class="inline-flex items-center gap-3 mb-4">
+       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
+        <i data-lucide="music" class="w-6 h-6 text-white"></i>
+       </div>
+       <h1 id="mainTitle" class="text-2xl md:text-4xl font-bold text-white"></h1>
+      </div>
+      <p class="text-blue-200 text-sm md:text-base">Pilih kandidat terbaik untuk memimpin Korp Musik kita!</p>
+     </header><!-- Progress Section -->
+     <div class="card-gradient rounded-2xl p-6 mb-8 animate-fadeIn" style="animation-delay: 0.1s">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+       <div class="flex items-center gap-2">
+        <i data-lucide="users" class="w-5 h-5 text-blue-400"></i> <span class="text-white font-medium">Progress Voting</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <span id="voteCount" class="text-2xl font-bold text-yellow-400">0</span> <span class="text-blue-200">dari</span> <span id="totalVoters" class="text-2xl font-bold text-white">42</span> <span class="text-blue-200">voters</span>
+       </div>
+      </div>
+      <div class="w-full h-4 bg-gray-700 rounded-full overflow-hidden">
+       <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 progress-bar-fill rounded-full" style="width: 0%"></div>
+      </div>
+      <div class="flex justify-between mt-2">
+       <span id="progressPercent" class="text-sm text-blue-200">0%</span> <span class="text-sm text-blue-200">Target: 100%</span>
+      </div>
+     </div><!-- Candidates -->
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- Candidate 1 -->
+      <div class="candidate-card card-gradient rounded-2xl overflow-hidden animate-fadeIn hover:animate-shake" style="animation-delay: 0.2s">
+       <div class="relative w-full aspect-square">
+        <div class="absolute top-4 left-4 w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl">
+         1
+        </div><img src="https://i.ibb.co.com/wh6pNyzv/1.png" alt="Kandidat 1" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; this.alt='Foto tidak tersedia';">
+       </div>
+       <div class="p-6">
+        <h3 id="candidate1Name" class="text-xl font-bold text-white mb-2">Kandidat 1</h3>
+        <div class="flex items-center gap-2 mb-3">
+         <span id="candidate1Votes" class="text-2xl font-bold text-yellow-400">0</span> <span class="text-blue-200 text-sm">suara</span> <span id="candidate1Percent" class="ml-auto text-blue-300 text-sm">(0%)</span>
+        </div>
+        <div class="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
+         <div id="candidate1Bar" class="h-full bg-gradient-to-r from-red-500 to-pink-500 chart-bar rounded-full" style="width: 0%"></div>
+        </div><button onclick="showVisionModal(1)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="https://forms.gle/ABC123" target="_blank"
+         class="vote-btn w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:scale-105 duration-200">
+         <i data-lucide="check-circle" class="w-5 h-5"></i> 
+         Pilih Kandidat 1 
+         </a>
+       </div>
+      </div><!-- Candidate 2 -->
+      <div class="candidate-card card-gradient rounded-2xl overflow-hidden animate-fadeIn" style="animation-delay: 0.3s">
+       <div class="relative w-full aspect-square">
+        <div class="absolute top-4 left-4 w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold text-xl">
+         2
+        </div><img src="https://i.ibb.co.com/ds06fL5F/2.png" alt="Kandidat 2" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'; this.alt='Foto tidak tersedia';">
+       </div>
+       <div class="p-6">
+        <h3 id="candidate2Name" class="text-xl font-bold text-white mb-2">Kandidat 2</h3>
+        <div class="flex items-center gap-2 mb-3">
+         <span id="candidate2Votes" class="text-2xl font-bold text-yellow-400">0</span> <span class="text-blue-200 text-sm">suara</span> <span id="candidate2Percent" class="ml-auto text-blue-300 text-sm">(0%)</span>
+        </div>
+        <div class="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
+         <div id="candidate2Bar" class="h-full bg-gradient-to-r from-green-500 to-emerald-500 chart-bar rounded-full" style="width: 0%"></div>
+        </div><button onclick="showVisionModal(2)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="https://forms.gle/bRXDrhijE5zDUZUv5" target="_blank"
+         class="vote-btn w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:scale-105 duration-200">
+         <i data-lucide="check-circle" class="w-5 h-5"></i> 
+         Pilih Kandidat 2 
+         </a>
+	   </div>
+      </div><!-- Candidate 3 -->
+      <div class="candidate-card card-gradient rounded-2xl overflow-hidden animate-fadeIn" style="animation-delay: 0.4s">
+       <div class="relative w-full aspect-square">
+        <div class="absolute top-4 left-4 w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
+         3
+        </div><img src="https://i.ibb.co.com/nqSqwbHq/3.png" alt="Kandidat 3" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; this.alt='Foto tidak tersedia';">
+       </div>
+       <div class="p-6">
+        <h3 id="candidate3Name" class="text-xl font-bold text-white mb-2">Kandidat 3</h3>
+        <div class="flex items-center gap-2 mb-3">
+         <span id="candidate3Votes" class="text-2xl font-bold text-yellow-400">0</span> <span class="text-blue-200 text-sm">suara</span> <span id="candidate3Percent" class="ml-auto text-blue-300 text-sm">(0%)</span>
+        </div>
+        <div class="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
+         <div id="candidate3Bar" class="h-full bg-gradient-to-r from-blue-500 to-purple-500 chart-bar rounded-full" style="width: 0%"></div>
+        </div><button onclick="showVisionModal(3)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="https://forms.gle/QGTv3hQotjyho9i37" target="_blank"
+         class="vote-btn w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:scale-105 duration-200">
+         <i data-lucide="check-circle" class="w-5 h-5"></i> 
+         Pilih Kandidat 3 
+         </a>
+       </div>
+      </div>
+     </div><!-- Admin Button -->
+     <div class="text-center">
+      <button onclick="showAdminLogin()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 text-white hover:bg-white/20 transition"> <i data-lucide="shield" class="w-5 h-5"></i> Admin Dashboard </button>
+     </div>
+    </div>
+   </div><!-- Admin Dashboard -->
+   <div id="adminDashboard" class="hidden min-h-full p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+     <!-- Admin Header -->
+     <header class="flex flex-wrap items-center justify-between gap-4 mb-8">
+      <div class="flex items-center gap-3">
+       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+        <i data-lucide="layout-dashboard" class="w-6 h-6 text-white"></i>
+       </div>
+       <div>
+        <h1 class="text-2xl font-bold text-white">Admin Dashboard</h1>
+        <p class="text-blue-200 text-sm">Monitor hasil pemilihan secara real-time</p>
+       </div>
+      </div><button onclick="exitAdmin()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/20 transition"> <i data-lucide="log-out" class="w-4 h-4"></i> Keluar </button>
+     </header><!-- Stats Cards -->
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="card-gradient rounded-xl p-4">
+       <div class="flex items-center gap-2 mb-2">
+        <i data-lucide="vote" class="w-5 h-5 text-blue-400"></i> <span class="text-blue-200 text-sm">Total Suara</span>
+       </div><span id="adminTotalVotes" class="text-3xl font-bold text-white">0</span>
+      </div>
+      <div class="card-gradient rounded-xl p-4">
+       <div class="flex items-center gap-2 mb-2">
+        <i data-lucide="user-x" class="w-5 h-5 text-orange-400"></i> <span class="text-blue-200 text-sm">Belum Memilih</span>
+       </div><span id="adminNotVoted" class="text-3xl font-bold text-white">42</span>
+      </div>
+      <div class="card-gradient rounded-xl p-4">
+       <div class="flex items-center gap-2 mb-2">
+        <i data-lucide="percent" class="w-5 h-5 text-green-400"></i> <span class="text-blue-200 text-sm">Progress</span>
+       </div><span id="adminProgress" class="text-3xl font-bold text-white">0%</span>
+      </div>
+      <div class="card-gradient rounded-xl p-4">
+       <div class="flex items-center gap-2 mb-2">
+        <i data-lucide="activity" class="w-5 h-5 text-purple-400"></i> <span class="text-blue-200 text-sm">Status</span>
+       </div><span id="adminStatus" class="text-lg font-bold text-yellow-400">Berlangsung</span>
+      </div>
+     </div><!-- Chart Section -->
+     <div class="card-gradient rounded-2xl p-6 mb-8">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2"><i data-lucide="bar-chart-3" class="w-6 h-6 text-blue-400"></i> Perolehan Suara</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <!-- Candidate 1 Chart -->
+       <div class="text-center">
+        <div class="relative w-32 h-32 mx-auto mb-4">
+         <svg class="w-32 h-32 transform -rotate-90">
+          <circle cx="64" cy="64" r="56" fill="none" stroke="#374151" stroke-width="12" /> <circle id="chart1Circle" cx="64" cy="64" r="56" fill="none" stroke="url(#gradient1)" stroke-width="12" stroke-dasharray="352" stroke-dashoffset="352" stroke-linecap="round" /> <defs>
+           <lineargradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ef4444" />
+            <stop offset="100%" stop-color="#ec4899" />
+           </lineargradient>
+          </defs>
+         </svg>
+         <div class="absolute inset-0 flex items-center justify-center">
+          <span id="chart1Percent" class="text-2xl font-bold text-white">0%</span>
+         </div>
+        </div>
+        <h3 id="adminCandidate1Name" class="text-white font-semibold">Kandidat 1</h3>
+        <p class="text-blue-200"><span id="adminCandidate1Votes" class="text-yellow-400 font-bold">0</span> suara</p>
+       </div><!-- Candidate 2 Chart -->
+       <div class="text-center">
+        <div class="relative w-32 h-32 mx-auto mb-4">
+         <svg class="w-32 h-32 transform -rotate-90">
+          <circle cx="64" cy="64" r="56" fill="none" stroke="#374151" stroke-width="12" /> <circle id="chart2Circle" cx="64" cy="64" r="56" fill="none" stroke="url(#gradient2)" stroke-width="12" stroke-dasharray="352" stroke-dashoffset="352" stroke-linecap="round" /> <defs>
+           <lineargradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#22c55e" />
+            <stop offset="100%" stop-color="#10b981" />
+           </lineargradient>
+          </defs>
+         </svg>
+         <div class="absolute inset-0 flex items-center justify-center">
+          <span id="chart2Percent" class="text-2xl font-bold text-white">0%</span>
+         </div>
+        </div>
+        <h3 id="adminCandidate2Name" class="text-white font-semibold">Kandidat 2</h3>
+        <p class="text-blue-200"><span id="adminCandidate2Votes" class="text-yellow-400 font-bold">0</span> suara</p>
+       </div><!-- Candidate 3 Chart -->
+       <div class="text-center">
+        <div class="relative w-32 h-32 mx-auto mb-4">
+         <svg class="w-32 h-32 transform -rotate-90">
+          <circle cx="64" cy="64" r="56" fill="none" stroke="#374151" stroke-width="12" /> <circle id="chart3Circle" cx="64" cy="64" r="56" fill="none" stroke="url(#gradient3)" stroke-width="12" stroke-dasharray="352" stroke-dashoffset="352" stroke-linecap="round" /> <defs>
+           <lineargradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#8b5cf6" />
+           </lineargradient>
+          </defs>
+         </svg>
+         <div class="absolute inset-0 flex items-center justify-center">
+          <span id="chart3Percent" class="text-2xl font-bold text-white">0%</span>
+         </div>
+        </div>
+        <h3 id="adminCandidate3Name" class="text-white font-semibold">Kandidat 3</h3>
+        <p class="text-blue-200"><span id="adminCandidate3Votes" class="text-yellow-400 font-bold">0</span> suara</p>
+       </div>
+      </div>
+     </div><!-- Voter List -->
+     <div class="card-gradient rounded-2xl p-6 mb-8">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+       <h2 class="text-xl font-bold text-white flex items-center gap-2"><i data-lucide="users" class="w-6 h-6 text-blue-400"></i> Daftar Voter</h2>
+       <div class="flex gap-2">
+        <button onclick="setVoterFilter('all')" id="filterAll" class="px-4 py-2 rounded-lg tab-active text-white text-sm transition">Semua</button> <button onclick="setVoterFilter('voted')" id="filterVoted" class="px-4 py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition">Sudah Memilih</button> <button onclick="setVoterFilter('not_voted')" id="filterNotVoted" class="px-4 py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition">Belum Memilih</button>
+       </div>
+      </div>
+      <div id="voterList" class="max-h-64 overflow-y-auto scrollbar-thin space-y-2">
+       <div class="text-center text-blue-200 py-8">
+        <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+        <p>Belum ada data voting</p>
+       </div>
+      </div>
+     </div><!-- Reset Button -->
+     <div class="text-center">
+      <button onclick="showResetConfirm()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 transition"> <i data-lucide="refresh-ccw" class="w-5 h-5"></i> Reset Pemilihan </button>
+     </div>
+    </div>
+   </div><!-- Vision Modal -->
+   <div id="visionModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-gray-800 rounded-2xl max-w-lg w-full max-h-[80%] overflow-hidden animate-fadeIn">
+     <div class="p-6 border-b border-white/10 flex items-center justify-between">
+      <h3 id="visionModalTitle" class="text-xl font-bold text-white">Visi &amp; Misi</h3><button onclick="closeVisionModal()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+     </div>
+     <div id="visionModalContent" class="p-6 overflow-y-auto max-h-96 text-blue-200 leading-relaxed">
+     </div>
+    </div>
+   </div><!-- Confirm Vote Modal -->
+   <div id="confirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-gray-800 rounded-2xl max-w-md w-full animate-fadeIn">
+     <div class="p-6 text-center">
+      <div class="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
+       <i data-lucide="help-circle" class="w-8 h-8 text-blue-400"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white mb-2">Konfirmasi Pilihan</h3>
+      <p class="text-blue-200 mb-4">Anda akan memilih:</p>
+      <p id="confirmCandidateName" class="text-2xl font-bold text-yellow-400 mb-6">Kandidat</p>
+      <div class="mb-6">
+       <label class="block text-blue-200 text-sm mb-2">Masukkan nama Anda:</label> <input type="text" id="voterNameInput" placeholder="Nama lengkap..." class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:border-blue-400">
+      </div>
+      <div class="flex gap-3">
+       <button onclick="closeConfirmModal()" class="flex-1 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition">Batal</button> <button onclick="submitVote()" id="submitVoteBtn" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:opacity-90 transition flex items-center justify-center gap-2"> <span>Konfirmasi</span> </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Thank You Modal -->
+   <div id="thankYouModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-gray-800 rounded-2xl max-w-md w-full animate-fadeIn text-center p-8">
+     <div class="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
+      <i data-lucide="check-circle" class="w-10 h-10 text-green-400"></i>
+     </div>
+     <h3 class="text-2xl font-bold text-white mb-2">Terima Kasih!</h3>
+     <p class="text-blue-200 mb-6">Suara Anda telah berhasil dicatat. Terima kasih telah berpartisipasi dalam pemilihan Ketua Korp Musik.</p><button onclick="closeThankYouModal()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold hover:opacity-90 transition">Tutup</button>
+    </div>
+   </div><!-- Admin Login Modal -->
+   <div id="adminLoginModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-gray-800 rounded-2xl max-w-md w-full animate-fadeIn">
+     <div class="p-6">
+      <div class="text-center mb-6">
+       <div class="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="lock" class="w-8 h-8 text-purple-400"></i>
+       </div>
+       <h3 class="text-xl font-bold text-white">Login Admin</h3>
+       <p class="text-blue-200 text-sm">Masukkan password untuk mengakses dashboard</p>
+      </div>
+      <div class="mb-4">
+       <input type="password" id="adminPasswordInput" placeholder="Password..." class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-300 focus:outline-none focus:border-purple-400">
+       <p id="adminLoginError" class="hidden text-red-400 text-sm mt-2">Password salah!</p>
+      </div>
+      <div class="flex gap-3">
+       <button onclick="closeAdminLogin()" class="flex-1 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition">Batal</button> <button onclick="loginAdmin()" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition">Masuk</button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Reset Confirm Modal -->
+   <div id="resetConfirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-gray-800 rounded-2xl max-w-md w-full animate-fadeIn">
+     <div class="p-6 text-center">
+      <div class="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-4">
+       <i data-lucide="alert-triangle" class="w-8 h-8 text-red-400"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white mb-2">Reset Pemilihan?</h3>
+      <p class="text-blue-200 mb-6">Semua data voting akan dihapus. Tindakan ini tidak dapat dibatalkan.</p>
+      <div class="flex gap-3">
+       <button onclick="closeResetConfirm()" class="flex-1 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition">Batal</button> <button onclick="resetVoting()" id="resetVotingBtn" class="flex-1 py-3 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 transition flex items-center justify-center gap-2"> <span>Reset</span> </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Toast -->
+   <div id="toast" class="hidden fixed bottom-4 right-4 z-50 px-6 py-3 rounded-xl bg-gray-800 text-white shadow-lg animate-slideIn">
+    <span id="toastMessage">Message</span>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      page_title: 'PEMILIHAN KETUA & WAKIL KETUA EKSKUL KORP MUSIK 2026-2027',
+      admin_password: 'korpmusik2627',
+      total_voters: '42',
+      candidate_1_name: 'Kandidat 1',
+      candidate_1_vision: 'Visi dan Misi Kandidat 1 akan ditampilkan di sini.',
+      candidate_2_name: 'Kandidat 2',
+      candidate_2_vision: 'VISI:\nMewujudkan Korsik sebagai ekstrakurikuler yang disiplin, profesional, dan terampil, serta menjunjung tinggi solidaritas dan kekeluargaan di antara seluruh anggota dan Misi Kandidat 2 akan ditampilkan di sini. \n\nMISI:\n1. Meningkatkan kualitas teknik dan keterampilan dasar anggota melalui program latihan terstruktur dan pengembangan potensi individu.\n\n2. Memperkuat rasa solidaritas, kekeluargaan, dan kedisiplinan melalui pembiasaan dan kegiatan kebersamaan. \n\none band, one song, one team ',
+      candidate_3_name: 'Kandidat 3',
+      candidate_3_vision: 'VISI:\nMenjadikan Korsik, sebagai ekskul yang solid untuk bertumbuh, berprestasi, dan penampilan yang membanggakan.\n\nMISI:\n1. Menciptakan Evaluasi dan Komunikasi yang Terbuka: Mengadakan sesi sharing insight atau evaluasi berkala sehabis latihan untuk mendengarkan keluhan maupun saran dari tiap anggota korsik tanpa rasa malu atau sungkan.\n\n2. Pengembangan Skill yang Merata: Memastikan setiap anggota mendapat bimbingan teknik yang jelas dan cukup agar tidak ada yang merasa ketinggalan, baik dari senior maupun junior.\n\n3. Evaluasi Bulanan Anggota: Melaksanakan evaluasi bulanan untuk anggota Korsik, melihat bagaimana perkembangan anggota dalam memainkan alat masing-masing.\n\n4. Target Kompetisi yang Matang: Mempersiapkan tim yang berisi anggota korsik untuk mengikuti minimal 1 perlombaan sebagai ajang pembuktian diri dan mempererat kekompakan lewat pengalaman secara langsung di lapangan.\n\n5. Inovasi Penampilan: Membawa suasana baru di dalam aransemen lagu dalam Korsik agar saat tampil lebih baik dan tidak monoton.\n\nJangan lupa pilih nomor 3, karena nomor tigaaa: UUD, Unik Unggul dan Disukai!!!',
+      primary_color: '#3b82f6',
+      secondary_color: '#1e3a5f',
+      accent_color: '#facc15',
+      text_color: '#ffffff',
+      background_color: '#0d1b2a',
+      font_family: 'Poppins'
+    };
+    
+    // App state
+    let votes = [];
+    let selectedCandidate = null;
+    let voterFilter = 'all';
+    let isResetting = false;
+    let currentVoterName = '';
+    let currentVoterClass = '';
+    
+    // Data handler for SDK
+    const dataHandler = {
+      onDataChanged(data) {
+        votes = data || [];
+        updateUI();
+      }
+    };
+    
+    // Initialize SDKs
+    async function initApp() {
+      // Initialize Element SDK
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            applyConfig(config);
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () => config.background_color || defaultConfig.background_color,
+                set: (value) => window.elementSdk.setConfig({ background_color: value })
+              },
+              {
+                get: () => config.secondary_color || defaultConfig.secondary_color,
+                set: (value) => window.elementSdk.setConfig({ secondary_color: value })
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => window.elementSdk.setConfig({ text_color: value })
+              },
+              {
+                get: () => config.primary_color || defaultConfig.primary_color,
+                set: (value) => window.elementSdk.setConfig({ primary_color: value })
+              },
+              {
+                get: () => config.accent_color || defaultConfig.accent_color,
+                set: (value) => window.elementSdk.setConfig({ accent_color: value })
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => config.font_family || defaultConfig.font_family,
+              set: (value) => window.elementSdk.setConfig({ font_family: value })
+            },
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ['page_title', config.page_title || defaultConfig.page_title],
+            ['admin_password', config.admin_password || defaultConfig.admin_password],
+            ['total_voters', config.total_voters || defaultConfig.total_voters],
+            ['candidate_1_name', config.candidate_1_name || defaultConfig.candidate_1_name],
+            ['candidate_1_vision', config.candidate_1_vision || defaultConfig.candidate_1_vision],
+            ['candidate_2_name', config.candidate_2_name || defaultConfig.candidate_2_name],
+            ['candidate_2_vision', config.candidate_2_vision || defaultConfig.candidate_2_vision],
+            ['candidate_3_name', config.candidate_3_name || defaultConfig.candidate_3_name],
+            ['candidate_3_vision', config.candidate_3_vision || defaultConfig.candidate_3_vision]
+          ])
+        });
+      }
+      
+      // Initialize Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize Data SDK');
+        }
+      }
+      
+      // Apply initial config
+      applyConfig(window.elementSdk?.config || defaultConfig);
+      
+      // Initialize Lucide icons
+      lucide.createIcons();
+    }
+    
+    function applyConfig(config) {
+      const cfg = { ...defaultConfig, ...config };
+      
+      // Update title
+      document.getElementById('mainTitle').textContent = cfg.page_title;
+      
+      // Update total voters
+      document.getElementById('totalVoters').textContent = cfg.total_voters;
+      
+      // Update candidate names
+      document.getElementById('candidate1Name').textContent = cfg.candidate_1_name;
+      document.getElementById('candidate2Name').textContent = cfg.candidate_2_name;
+      document.getElementById('candidate3Name').textContent = cfg.candidate_3_name;
+      
+      // Update admin dashboard candidate names
+      document.getElementById('adminCandidate1Name').textContent = cfg.candidate_1_name;
+      document.getElementById('adminCandidate2Name').textContent = cfg.candidate_2_name;
+      document.getElementById('adminCandidate3Name').textContent = cfg.candidate_3_name;
+      
+      // Update colors
+      document.documentElement.style.setProperty('--primary-color', cfg.primary_color);
+      document.documentElement.style.setProperty('--background-color', cfg.background_color);
+      
+      // Apply font
+      document.body.style.fontFamily = `${cfg.font_family}, sans-serif`;
+      
+      // Update UI
+      updateUI();
+    }
+    
+    function updateUI() {
+      const config = window.elementSdk?.config || defaultConfig;
+      const totalVoters = parseInt(config.total_voters || defaultConfig.total_voters);
+      
+      // Count votes per candidate
+      const candidate1Votes = votes.filter(v => v.candidate_id === '1').length;
+      const candidate2Votes = votes.filter(v => v.candidate_id === '2').length;
+      const candidate3Votes = votes.filter(v => v.candidate_id === '3').length;
+      const totalVotes = votes.length;
+      
+      // Update progress
+      const progress = totalVoters > 0 ? Math.round((totalVotes / totalVoters) * 100) : 0;
+      document.getElementById('voteCount').textContent = totalVotes;
+      document.getElementById('progressBar').style.width = `${progress}%`;
+      document.getElementById('progressPercent').textContent = `${progress}%`;
+      
+      // Update candidate stats
+      const calcPercent = (count) => totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+      
+      document.getElementById('candidate1Votes').textContent = candidate1Votes;
+      document.getElementById('candidate1Percent').textContent = `(${calcPercent(candidate1Votes)}%)`;
+      document.getElementById('candidate1Bar').style.width = `${calcPercent(candidate1Votes)}%`;
+      
+      document.getElementById('candidate2Votes').textContent = candidate2Votes;
+      document.getElementById('candidate2Percent').textContent = `(${calcPercent(candidate2Votes)}%)`;
+      document.getElementById('candidate2Bar').style.width = `${calcPercent(candidate2Votes)}%`;
+      
+      document.getElementById('candidate3Votes').textContent = candidate3Votes;
+      document.getElementById('candidate3Percent').textContent = `(${calcPercent(candidate3Votes)}%)`;
+      document.getElementById('candidate3Bar').style.width = `${calcPercent(candidate3Votes)}%`;
+      
+      // Update admin dashboard
+      document.getElementById('adminTotalVotes').textContent = totalVotes;
+      document.getElementById('adminNotVoted').textContent = Math.max(0, totalVoters - totalVotes);
+      document.getElementById('adminProgress').textContent = `${progress}%`;
+      document.getElementById('adminStatus').textContent = progress >= 100 ? 'Selesai' : 'Berlangsung';
+      document.getElementById('adminStatus').className = progress >= 100 ? 'text-lg font-bold text-green-400' : 'text-lg font-bold text-yellow-400';
+      
+      // Update charts
+      document.getElementById('adminCandidate1Votes').textContent = candidate1Votes;
+      document.getElementById('adminCandidate2Votes').textContent = candidate2Votes;
+      document.getElementById('adminCandidate3Votes').textContent = candidate3Votes;
+      
+      const circumference = 352;
+      document.getElementById('chart1Circle').style.strokeDashoffset = circumference - (circumference * calcPercent(candidate1Votes) / 100);
+      document.getElementById('chart2Circle').style.strokeDashoffset = circumference - (circumference * calcPercent(candidate2Votes) / 100);
+      document.getElementById('chart3Circle').style.strokeDashoffset = circumference - (circumference * calcPercent(candidate3Votes) / 100);
+      
+      document.getElementById('chart1Percent').textContent = `${calcPercent(candidate1Votes)}%`;
+      document.getElementById('chart2Percent').textContent = `${calcPercent(candidate2Votes)}%`;
+      document.getElementById('chart3Percent').textContent = `${calcPercent(candidate3Votes)}%`;
+      
+      // Update voter list
+      updateVoterList();
+    }
+    
+    function updateVoterList() {
+      const config = window.elementSdk?.config || defaultConfig;
+      const totalVoters = parseInt(config.total_voters || defaultConfig.total_voters);
+      const voterListEl = document.getElementById('voterList');
+      
+      let displayVotes = [...votes];
+      
+      // Create unvoted entries
+      const votedCount = votes.length;
+      const unvotedCount = Math.max(0, totalVoters - votedCount);
+      
+      let html = '';
+      
+      // Filter logic
+      if (voterFilter === 'all' || voterFilter === 'voted') {
+        displayVotes.forEach((vote, index) => {
+          const candidateName = getCandidateName(vote.candidate_id);
+          html += `
+            <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 animate-slideIn" style="animation-delay: ${index * 0.05}s">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
+                </div>
+                <div>
+                  <p class="text-white font-medium">${vote.voter_name || 'Voter'}</p>
+                  <p class="text-blue-200 text-xs">${new Date(vote.voted_at).toLocaleString('id-ID')}</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm">${candidateName}</span>
+            </div>
+          `;
+        });
+      }
+      
+      if ((voterFilter === 'all' || voterFilter === 'not_voted') && unvotedCount > 0) {
+        for (let i = 0; i < unvotedCount; i++) {
+          html += `
+            <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+                  <i data-lucide="clock" class="w-4 h-4 text-orange-400"></i>
+                </div>
+                <div>
+                  <p class="text-white/50 font-medium">Voter ${votedCount + i + 1}</p>
+                  <p class="text-blue-200/50 text-xs">Belum memilih</p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-orange-500/20 text-orange-300 text-sm">Pending</span>
+            </div>
+          `;
+        }
+      }
+      
+      if (html === '') {
+        html = `
+          <div class="text-center text-blue-200 py-8">
+            <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+            <p>Tidak ada data</p>
+          </div>
+        `;
+      }
+      
+      voterListEl.innerHTML = html;
+      lucide.createIcons();
+    }
+    
+    function getCandidateName(id) {
+      const config = window.elementSdk?.config || defaultConfig;
+      switch(id) {
+        case '1': return config.candidate_1_name || defaultConfig.candidate_1_name;
+        case '2': return config.candidate_2_name || defaultConfig.candidate_2_name;
+        case '3': return config.candidate_3_name || defaultConfig.candidate_3_name;
+        default: return 'Unknown';
+      }
+    }
+    
+    function getCandidateVision(id) {
+      const config = window.elementSdk?.config || defaultConfig;
+      switch(id) {
+        case 1: return config.candidate_1_vision || defaultConfig.candidate_1_vision;
+        case 2: return config.candidate_2_vision || defaultConfig.candidate_2_vision;
+        case 3: return config.candidate_3_vision || defaultConfig.candidate_3_vision;
+        default: return '';
+      }
+    }
+    
+    // Modal functions
+    function showVisionModal(candidateId) {
+      const config = window.elementSdk?.config || defaultConfig;
+      const name = getCandidateName(String(candidateId));
+      const vision = getCandidateVision(candidateId);
+      
+      document.getElementById('visionModalTitle').textContent = `Visi & Misi ${name}`;
+      document.getElementById('visionModalContent').innerHTML = vision.replace(/\n/g, '<br>');
+      document.getElementById('visionModal').classList.remove('hidden');
+    }
+    
+    function closeVisionModal() {
+      document.getElementById('visionModal').classList.add('hidden');
+    }
+    
+    function selectCandidate(candidateId) {
+      const config = window.elementSdk?.config || defaultConfig;
+      const totalVoters = parseInt(config.total_voters || defaultConfig.total_voters);
+      
+      // Check if voting is full
+      if (votes.length >= totalVoters) {
+        showToast('Voting sudah mencapai batas maksimal!');
+        return;
+      }
+      
+      // Check data limit
+      if (votes.length >= 999) {
+        showToast('Batas penyimpanan data tercapai!');
+        return;
+      }
+      
+      selectedCandidate = candidateId;
+      const name = getCandidateName(String(candidateId));
+      document.getElementById('confirmCandidateName').textContent = name;
+      document.getElementById('voterNameInput').value = '';
+      document.getElementById('confirmModal').classList.remove('hidden');
+    }
+    
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.add('hidden');
+      selectedCandidate = null;
+    }
+    
+    async function submitVote() {
+     const voterName = document.getElementById('voterNameInput').value.trim();
+
+     // 👉 GANTI LINK GOOGLE FORM LU DI SINI
+     const googleFormURL = "https://forms.gle/ABC123";
+
+     // Redirect ke Google Form
+     window.open(googleFormURL, "_blank");
+
+     // Optional: tutup modal setelah klik
+     closeConfirmModal();
+    }
+    
+    function closeThankYouModal() {
+      document.getElementById('thankYouModal').classList.add('hidden');
+    }
+    
+    function showAdminLogin() {
+      document.getElementById('adminPasswordInput').value = '';
+      document.getElementById('adminLoginError').classList.add('hidden');
+      document.getElementById('adminLoginModal').classList.remove('hidden');
+    }
+    
+    function closeAdminLogin() {
+      document.getElementById('adminLoginModal').classList.add('hidden');
+    }
+    
+    function loginAdmin() {
+      const config = window.elementSdk?.config || defaultConfig;
+      const password = document.getElementById('adminPasswordInput').value;
+      const correctPassword = config.admin_password || defaultConfig.admin_password;
+      
+      if (password === correctPassword) {
+        closeAdminLogin();
+        document.getElementById('votingPage').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.remove('hidden');
+        updateUI();
+      } else {
+        document.getElementById('adminLoginError').classList.remove('hidden');
+      }
+    }
+    
+    function exitAdmin() {
+      document.getElementById('adminDashboard').classList.add('hidden');
+      document.getElementById('votingPage').classList.remove('hidden');
+    }
+    
+    function setVoterFilter(filter) {
+      voterFilter = filter;
+      
+      // Update button styles
+      document.getElementById('filterAll').className = filter === 'all' ? 'px-4 py-2 rounded-lg tab-active text-white text-sm transition' : 'px-4 py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition';
+      document.getElementById('filterVoted').className = filter === 'voted' ? 'px-4 py-2 rounded-lg tab-active text-white text-sm transition' : 'px-4 py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition';
+      document.getElementById('filterNotVoted').className = filter === 'not_voted' ? 'px-4 py-2 rounded-lg tab-active text-white text-sm transition' : 'px-4 py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition';
+      
+      updateVoterList();
+    }
+    
+    function showResetConfirm() {
+      document.getElementById('resetConfirmModal').classList.remove('hidden');
+    }
+    
+    function closeResetConfirm() {
+      document.getElementById('resetConfirmModal').classList.add('hidden');
+    }
+    
+    async function resetVoting() {
+      if (isResetting) return;
+      isResetting = true;
+      
+      const resetBtn = document.getElementById('resetVotingBtn');
+      resetBtn.disabled = true;
+      resetBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Menghapus...';
+      lucide.createIcons();
+      
+      if (window.dataSdk && votes.length > 0) {
+        // Delete all votes one by one
+        for (const vote of votes) {
+          await window.dataSdk.delete(vote);
+        }
+      }
+      
+      closeResetConfirm();
+      showToast('Pemilihan berhasil direset!');
+      
+      resetBtn.disabled = false;
+      resetBtn.innerHTML = '<span>Reset</span>';
+      isResetting = false;
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = message;
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+    
+    function submitWelcome() {
+      const name = document.getElementById('welcomeNameInput').value.trim();
+      const className = document.getElementById('welcomeClassInput').value.trim();
+      
+      if (!name) {
+        showToast('Silakan masukkan nama Anda!');
+        return;
+      }
+      
+      if (!className) {
+        showToast('Silakan masukkan kelas Anda!');
+        return;
+      }
+      
+      currentVoterName = name;
+      currentVoterClass = className;
+      document.getElementById('welcomeModal').classList.add('hidden');
+    }
+    
+    // Initialize app
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9deabbb6e3158093',t:'MTc3MzkwNTAyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
