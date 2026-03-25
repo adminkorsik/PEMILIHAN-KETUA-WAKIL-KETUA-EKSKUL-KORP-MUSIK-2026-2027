@@ -178,14 +178,14 @@
         <i data-lucide="users" class="w-5 h-5 text-blue-400"></i> <span class="text-white font-medium">Progress Voting</span>
        </div>
        <div class="flex items-center gap-2">
-        <span id="voteCount" class="text-2xl font-bold text-yellow-400">20</span> <span class="text-blue-200">dari</span> <span id="totalVoters" class="text-2xl font-bold text-white">42</span> <span class="text-blue-200">voters</span>
+        <span id="voteCount" class="text-2xl font-bold text-yellow-400">CLOSE</span> <span class="text-blue-200">dari</span> <span id="totalVoters" class="text-2xl font-bold text-white">42</span> <span class="text-blue-200">voters</span>
        </div>
       </div>
       <div class="w-full h-4 bg-gray-700 rounded-full overflow-hidden">
-       <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 progress-bar-fill rounded-full" style="width: 48%"></div>
+       <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 progress-bar-fill rounded-full" style="width: 100%"></div>
       </div>
       <div class="flex justify-between mt-2">
-       <span id="progressPercent" class="text-sm text-blue-200">48%</span> <span class="text-sm text-blue-200">Target: 100%</span>
+       <span id="progressPercent" class="text-sm text-blue-200">CLOSE</span> <span class="text-sm text-blue-200">Target: 100%</span>
       </div>
      </div><!-- Candidates -->
      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -203,7 +203,7 @@
         </div>
         <div class="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
          <div id="candidate1Bar" class="h-full bg-gradient-to-r from-red-500 to-pink-500 chart-bar rounded-full" style="width: 0%"></div>
-        </div><button onclick="showVisionModal(1)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="https://forms.gle/9s4zZmytuQD2PSHx9" target="_blank"
+        </div><button onclick="showVisionModal(1)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="CLOSE" target="_blank"
          class="vote-btn w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:scale-105 duration-200">
          <i data-lucide="check-circle" class="w-5 h-5"></i> 
          Pilih Kandidat 1 
@@ -223,7 +223,7 @@
         </div>
         <div class="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
          <div id="candidate2Bar" class="h-full bg-gradient-to-r from-green-500 to-emerald-500 chart-bar rounded-full" style="width: 0%"></div>
-        </div><button onclick="showVisionModal(2)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="https://forms.gle/bRXDrhijE5zDUZUv5" target="_blank"
+        </div><button onclick="showVisionModal(2)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="CLOSE" target="_blank"
          class="vote-btn w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:scale-105 duration-200">
          <i data-lucide="check-circle" class="w-5 h-5"></i> 
          Pilih Kandidat 2 
@@ -243,7 +243,7 @@
         </div>
         <div class="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
          <div id="candidate3Bar" class="h-full bg-gradient-to-r from-blue-500 to-purple-500 chart-bar rounded-full" style="width: 0%"></div>
-        </div><button onclick="showVisionModal(3)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="https://forms.gle/QGTv3hQotjyho9i37" target="_blank"
+        </div><button onclick="showVisionModal(3)" class="w-full py-2 rounded-lg bg-white/10 text-white text-sm hover:bg-white/20 transition mb-3 transform hover:scale-105 duration-200"> <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i> Lihat Visi &amp; Misi </button> <a href="CLOSE" target="_blank"
          class="vote-btn w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:scale-105 duration-200">
          <i data-lucide="check-circle" class="w-5 h-5"></i> 
          Pilih Kandidat 3 
@@ -584,7 +584,7 @@
       const candidate1Votes = votes.filter(v => v.candidate_id === '1').length;
       const candidate2Votes = votes.filter(v => v.candidate_id === '2').length;
       const candidate3Votes = votes.filter(v => v.candidate_id === '3').length;
-      const totalVotes = 35;
+      const totalVotes = CLOSE;
       
       // Update progress
       const progress = totalVoters > 0 ? Math.round((totalVotes / totalVoters) * 100) : 0;
